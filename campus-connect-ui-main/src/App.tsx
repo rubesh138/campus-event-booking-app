@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import Chatbot from "@/components/Chatbot"; // ✅ NEW
+import Chatbot from "@/components/Chatbot";
 
 import Index from "./pages/Index";
 import Login from "./pages/Login";
@@ -14,8 +14,9 @@ import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
+
         {/* PUBLIC ROUTES */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -76,12 +77,14 @@ export default function App() {
           }
         />
 
+        {/* NOT FOUND */}
         <Route path="*" element={<NotFound />} />
+
       </Routes>
 
-      {/* 🤖 CHATBOT COMPONENT */}
+      {/* CHATBOT */}
       <Chatbot />
 
-    </BrowserRouter>
+    </HashRouter>
   );
 }
