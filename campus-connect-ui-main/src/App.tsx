@@ -12,6 +12,21 @@ import CreateEvent from "./pages/admin/CreateEvent";
 import EventList from "./pages/admin/EventList";
 import NotFound from "./pages/NotFound";
 
+// ✅ NEW ADMIN ROUTE
+const AdminRoute = ({ children }: any) => {
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  if (!user) {
+    return <Login />;
+  }
+
+  if (user.role !== "admin") {
+    return <Index />;
+  }
+
+  return children;
+};
+
 export default function App() {
   return (
     <HashRouter>
@@ -49,31 +64,31 @@ export default function App() {
           }
         />
 
-        {/* ADMIN ROUTES */}
+        {/* 🔥 ADMIN ROUTES (FIXED) */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <AdminDashboard />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
 
         <Route
           path="/admin/create"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <CreateEvent />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
 
         <Route
           path="/admin/events"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <EventList />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
 
