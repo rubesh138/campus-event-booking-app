@@ -37,7 +37,7 @@ export default function Signup() {
 
     try {
       await registerUser({
-        fullName: formData.name, // ✅ FIXED HERE
+        name: formData.name, // ✅ CORRECT FIELD
         email: formData.email,
         password: formData.password,
       });
@@ -68,6 +68,7 @@ export default function Signup() {
           <h1 className="text-4xl font-bold mb-4">Join CampusEvents</h1>
           <p className="text-lg opacity-90">
             Create your account and start exploring amazing events.
+            Connect with fellow students and learn new things.
           </p>
         </div>
       </div>
@@ -82,10 +83,12 @@ export default function Signup() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
 
+            {/* Name */}
             <div>
               <Label>Full Name</Label>
               <Input
                 type="text"
+                placeholder="John Doe"
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
@@ -94,10 +97,12 @@ export default function Signup() {
               />
             </div>
 
+            {/* Email */}
             <div>
               <Label>Email</Label>
               <Input
                 type="email"
+                placeholder="example@gmail.com"
                 value={formData.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
@@ -106,22 +111,35 @@ export default function Signup() {
               />
             </div>
 
+            {/* Password */}
             <div>
               <Label>Password</Label>
-              <Input
-                type={showPassword ? "text" : "password"}
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                required
-              />
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="********"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
 
+            {/* Confirm Password */}
             <div>
               <Label>Confirm Password</Label>
               <Input
                 type="password"
+                placeholder="********"
                 value={formData.confirmPassword}
                 onChange={(e) =>
                   setFormData({
@@ -133,12 +151,14 @@ export default function Signup() {
               />
             </div>
 
+            {/* Button */}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Creating..." : "Create account"}
             </Button>
 
           </form>
 
+          {/* Login Link */}
           <p className="text-center mt-4">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500">
