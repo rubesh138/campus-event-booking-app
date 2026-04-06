@@ -16,6 +16,11 @@ export default function App() {
     <HashRouter>
       <Routes>
 
+        {/* 🔥 ADMIN ROUTES FIRST (IMPORTANT) */}
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/create" element={<CreateEvent />} />
+        <Route path="/admin/events" element={<EventList />} />
+
         {/* PUBLIC */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -24,11 +29,6 @@ export default function App() {
         <Route path="/" element={<Index />} />
         <Route path="/event/:id" element={<EventDetails />} />
         <Route path="/my-bookings" element={<MyBookings />} />
-
-        {/* 🔥 ADMIN (NO PROTECTION FOR DEMO) */}
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/create" element={<CreateEvent />} />
-        <Route path="/admin/events" element={<EventList />} />
 
         {/* FALLBACK */}
         <Route path="*" element={<NotFound />} />
