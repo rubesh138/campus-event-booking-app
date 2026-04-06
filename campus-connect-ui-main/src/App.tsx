@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Chatbot from "@/components/Chatbot"; // ✅ NEW
 
 import Index from "./pages/Index";
 import Login from "./pages/Login";
@@ -15,11 +16,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* ✅ PUBLIC ROUTES */}
+        {/* PUBLIC ROUTES */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* ✅ PROTECTED USER ROUTES */}
+        {/* USER ROUTES */}
         <Route
           path="/"
           element={
@@ -28,6 +29,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/event/:id"
           element={
@@ -36,6 +38,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/my-bookings"
           element={
@@ -45,7 +48,7 @@ export default function App() {
           }
         />
 
-        {/* ✅ ADMIN ROUTES (LOGIN REQUIRED) */}
+        {/* ADMIN ROUTES */}
         <Route
           path="/admin"
           element={
@@ -54,6 +57,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/admin/create"
           element={
@@ -62,6 +66,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/admin/events"
           element={
@@ -73,6 +78,10 @@ export default function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      {/* 🤖 CHATBOT COMPONENT */}
+      <Chatbot />
+
     </BrowserRouter>
   );
 }

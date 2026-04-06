@@ -1,71 +1,181 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Header } from "@/components/layout/Header";
-import { BookingCard, type Booking } from "@/components/events/BookingCard";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarX } from "lucide-react";
+import { Calendar, Clock, MapPin, CalendarX } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function MyBookings() {
+
   const { toast } = useToast();
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+
+  const fetchBookings = async () => {
+
+    try {
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(
+        "http://localhost:5000/api/bookings/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setBookings(res.data);
+
+    } catch (error) {
+
+      toast({
+        title: "Failed to load bookings",
+        variant: "destructive",
+      });
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        const res = await axios.get(
-          "http://localhost:5000/api/bookings/me",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setBookings(res.data);
-      } catch (error) {
-        toast({
-          title: "Failed to load bookings",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchBookings();
-  }, [toast]);
+  }, []);
+
+
+  const handleCancel = async (id: string) => {
+
+    try {
+
+      const token = localStorage.getItem("token");
+
+      await axios.delete(
+        `http://localhost:5000/api/bookings/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast({
+        title: "Booking cancelled",
+      });
+
+      setBookings((prev) => prev.filter((b) => b._id !== id));
+
+    } catch (error) {
+
+      toast({
+        title: "Cancel failed",
+        variant: "destructive",
+      });
+
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-background">
+
       <Header />
 
-      <main className="container py-8 max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2">My Bookings</h1>
+      <main className="container py-10 max-w-3xl mx-auto">
+
+        <h1 className="text-3xl font-bold mb-2">
+          My Bookings
+        </h1>
+
         <p className="text-muted-foreground mb-8">
           Manage your event registrations
         </p>
 
+
         {loading ? (
+
           <p>Loading...</p>
+
         ) : bookings.length === 0 ? (
+
           <div className="text-center py-16">
+
             <CalendarX className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+
             <p>No bookings yet</p>
+
           </div>
+
         ) : (
-          <div className="space-y-4">
-            {bookings.map((booking) => (
-              <BookingCard
-                key={booking._id}
-                booking={booking}
-              />
-            ))}
+
+          <div className="space-y-6">
+
+            {bookings.map((booking) => {
+
+              const event = booking.event;
+              if (!event) return null;
+
+              return (
+
+                <div
+                  key={booking._id}
+                  className="bg-white rounded-xl border shadow-sm p-6 flex justify-between items-start hover:shadow-md transition"
+                >
+
+                  <div>
+
+                    <h2 className="text-lg font-semibold mb-2">
+                      {event.title}
+                    </h2>
+
+                    {/* Date */}
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Calendar size={16} />
+                      {new Date(event.date).toLocaleDateString()}
+                    </div>
+
+                    {/* Time */}
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                      <Clock size={16} />
+                      {event.time}
+                    </div>
+
+                    {/* Location */}
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                      <MapPin size={16} />
+                      {event.location}
+                    </div>
+
+                    {/* Confirmed badge */}
+                    <span className="inline-block mt-3 text-xs font-medium bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                      confirmed
+                    </span>
+
+                  </div>
+
+
+                  {/* Cancel button */}
+                  <Button
+                    className="bg-red-500 hover:bg-red-600 text-white"
+                    onClick={() => handleCancel(booking._id)}
+                  >
+                    Cancel
+                  </Button>
+
+                </div>
+
+              );
+            })}
+
           </div>
+
         )}
+
       </main>
+
     </div>
   );
 }

@@ -5,3 +5,6 @@ export const bookEvent = (eventId: string) =>
 
 export const getMyBookings = () =>
   API.get("/bookings/me");
+
+export const cancelBooking = (bookingId: string) =>
+  API.delete(`/bookings/${bookingId}`);

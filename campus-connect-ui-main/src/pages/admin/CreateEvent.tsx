@@ -18,6 +18,7 @@ import { categories } from "@/lib/mockData";
 import axios from "axios";
 
 export default function CreateEvent() {
+
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -42,10 +43,10 @@ export default function CreateEvent() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
 
       const payload = {
         title: formData.title,
+        description: formData.description,
         category: formData.category,
         date: formData.date,
         time: formData.time,
@@ -56,12 +57,7 @@ export default function CreateEvent() {
 
       await axios.post(
         "http://localhost:5000/api/events",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        payload
       );
 
       toast({
@@ -69,11 +65,16 @@ export default function CreateEvent() {
       });
 
       navigate("/admin/events");
+
     } catch (error) {
+
+      console.error(error);
+
       toast({
         title: "Failed to create event",
         variant: "destructive",
       });
+
     } finally {
       setLoading(false);
     }
@@ -81,58 +82,96 @@ export default function CreateEvent() {
 
   return (
     <div className="flex min-h-screen w-full">
+
       <AdminSidebar />
 
       <main className="flex-1 p-6 bg-background">
+
         <div className="max-w-3xl mx-auto">
+
           <Card>
             <CardHeader>
               <CardTitle>Create Event</CardTitle>
             </CardHeader>
+
             <CardContent>
+
               <form onSubmit={handleSubmit} className="space-y-4">
 
                 <Label>Title</Label>
-                <Input onChange={(e) => handleChange("title", e.target.value)} />
+                <Input
+                  onChange={(e) => handleChange("title", e.target.value)}
+                />
 
                 <Label>Description</Label>
-                <Textarea onChange={(e) => handleChange("description", e.target.value)} />
+                <Textarea
+                  onChange={(e) =>
+                    handleChange("description", e.target.value)
+                  }
+                />
 
                 <Label>Date</Label>
-                <Input type="date" onChange={(e) => handleChange("date", e.target.value)} />
+                <Input
+                  type="date"
+                  onChange={(e) => handleChange("date", e.target.value)}
+                />
 
                 <Label>Time</Label>
-                <Input type="time" onChange={(e) => handleChange("time", e.target.value)} />
+                <Input
+                  type="time"
+                  onChange={(e) => handleChange("time", e.target.value)}
+                />
 
                 <Label>Location</Label>
-                <Input onChange={(e) => handleChange("location", e.target.value)} />
+                <Input
+                  onChange={(e) => handleChange("location", e.target.value)}
+                />
 
                 <Label>Seats</Label>
-                <Input type="number" onChange={(e) => handleChange("seats", e.target.value)} />
+                <Input
+                  type="number"
+                  onChange={(e) => handleChange("seats", e.target.value)}
+                />
 
                 <Label>Category</Label>
-                <Select onValueChange={(v) => handleChange("category", v)}>
+
+                <Select
+                  onValueChange={(v) => handleChange("category", v)}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
+
                   <SelectContent>
-                    {categories.filter(c => c !== "All").map((c) => (
-                      <SelectItem key={c} value={c}>{c}</SelectItem>
-                    ))}
+                    {categories
+                      .filter((c) => c !== "All")
+                      .map((c) => (
+                        <SelectItem key={c} value={c}>
+                          {c}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
 
                 <Label>Image URL (optional)</Label>
-                <Input onChange={(e) => handleChange("image", e.target.value)} />
+
+                <Input
+                  onChange={(e) => handleChange("image", e.target.value)}
+                />
 
                 <Button type="submit" disabled={loading}>
                   {loading ? "Creating..." : "Create Event"}
                 </Button>
+
               </form>
+
             </CardContent>
           </Card>
+
         </div>
+
       </main>
+
     </div>
   );
 }

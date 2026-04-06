@@ -10,3 +10,6 @@ export const registerUser = (data: {
   email: string;
   password: string;
 }) => API.post("/auth/register", data);
+
+// NEW API
+export const getUserCount = () => API.get("/auth/count");
