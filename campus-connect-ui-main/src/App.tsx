@@ -1,5 +1,4 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import Chatbot from "@/components/Chatbot";
 
 import Index from "./pages/Index";
@@ -17,51 +16,26 @@ export default function App() {
     <HashRouter>
       <Routes>
 
-        {/* PUBLIC ROUTES */}
+        {/* PUBLIC */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* USER ROUTES */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Index />
-            </ProtectedRoute>
-          }
-        />
+        {/* USER */}
+        <Route path="/" element={<Index />} />
+        <Route path="/event/:id" element={<EventDetails />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
 
-        <Route
-          path="/event/:id"
-          element={
-            <ProtectedRoute>
-              <EventDetails />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/my-bookings"
-          element={
-            <ProtectedRoute>
-              <MyBookings />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* 🔥 ADMIN ROUTES (FORCE ENABLED FOR DEMO) */}
+        {/* 🔥 ADMIN (NO PROTECTION FOR DEMO) */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/create" element={<CreateEvent />} />
         <Route path="/admin/events" element={<EventList />} />
 
-        {/* NOT FOUND */}
+        {/* FALLBACK */}
         <Route path="*" element={<NotFound />} />
 
       </Routes>
 
-      {/* CHATBOT */}
       <Chatbot />
-
     </HashRouter>
   );
 }
