@@ -24,8 +24,17 @@ export default function Login() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
+      const user = res.data.user;
+
       toast({ title: "Login successful" });
-      navigate("/", { replace: true });
+
+      // 🔥 FIX: redirect based on role
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
     } catch (err: any) {
       toast({
         title: "Login failed",
