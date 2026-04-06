@@ -1,18 +1,31 @@
 import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function AdminRoute({ children }: { children: JSX.Element }) {
-  const userData = localStorage.getItem("user");
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
-  if (!userData) {
-    return <Navigate to="/login" replace />;
-  }
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
 
-  const user = JSON.parse(userData);
+    if (!userData) {
+      setIsAdmin(false);
+      return;
+    }
 
-  // Extra safety check
-  if (!user || user.role !== "admin") {
-    return <Navigate to="/" replace />;
-  }
+    try {
+      const user = JSON.parse(userData);
+      setIsAdmin(user?.role === "admin");
+    } catch {
+      setIsAdmin(false);
+    }
+  }, []);
 
+  // ⏳ Wait until check completes
+  if (isAdmin === null) return null;
+
+  // ❌ Not admin → redirect
+  if (!isAdmin) return <Navigate to="/" replace />;
+
+  // ✅ Admin → allow access
   return children;
 }
