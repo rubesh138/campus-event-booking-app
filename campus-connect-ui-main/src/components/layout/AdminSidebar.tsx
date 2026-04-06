@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
-  { icon: CalendarPlus, label: "Create Event", path: "/admin/create" },
-  { icon: List, label: "All Events", path: "/admin/events" },
+  { icon: LayoutDashboard, label: "Dashboard", path: "#/admin" },
+  { icon: CalendarPlus, label: "Create Event", path: "#/admin/create" },
+  { icon: List, label: "All Events", path: "#/admin/events" },
 ];
 
 export function AdminSidebar() {
@@ -34,7 +34,7 @@ export function AdminSidebar() {
           <span className="text-lg font-bold text-sidebar-primary-foreground">CE</span>
         </div>
         {!collapsed && (
-          <div className="animate-slide-in">
+          <div>
             <span className="text-lg font-semibold">Admin</span>
           </div>
         )}
@@ -43,11 +43,11 @@ export function AdminSidebar() {
       {/* Navigation */}
       <nav className="flex-1 p-3 space-y-1">
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
+          const isActive = location.pathname === item.path.replace("#", "");
           return (
-            <Link
+            <a
               key={item.path}
-              to={item.path}
+              href={item.path}   // 🔥 IMPORTANT CHANGE
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
                 isActive 
@@ -57,9 +57,9 @@ export function AdminSidebar() {
             >
               <item.icon className="h-5 w-5 shrink-0" />
               {!collapsed && (
-                <span className="text-sm font-medium animate-slide-in">{item.label}</span>
+                <span className="text-sm font-medium">{item.label}</span>
               )}
-            </Link>
+            </a>
           );
         })}
       </nav>
@@ -80,12 +80,12 @@ export function AdminSidebar() {
           ) : (
             <>
               <ChevronLeft className="h-4 w-4" />
-              <span className="animate-slide-in">Collapse</span>
+              <span>Collapse</span>
             </>
           )}
         </Button>
         
-        <Link to="/login">
+        <a href="#/login">
           <Button
             variant="ghost"
             size="sm"
@@ -95,9 +95,9 @@ export function AdminSidebar() {
             )}
           >
             <LogOut className="h-4 w-4" />
-            {!collapsed && <span className="ml-2 animate-slide-in">Logout</span>}
+            {!collapsed && <span className="ml-2">Logout</span>}
           </Button>
-        </Link>
+        </a>
       </div>
     </aside>
   );
