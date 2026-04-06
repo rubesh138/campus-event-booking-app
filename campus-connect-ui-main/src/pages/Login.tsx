@@ -28,11 +28,11 @@ export default function Login() {
 
       toast({ title: "Login successful" });
 
-      // 🔥 FIX: redirect based on role
+      // 🔥 FINAL FIX (HASH ROUTER)
       if (user.role === "admin") {
-        navigate("/admin");
+        window.location.href = "/#/admin";
       } else {
-        navigate("/");
+        window.location.href = "/#/";
       }
 
     } catch (err: any) {
