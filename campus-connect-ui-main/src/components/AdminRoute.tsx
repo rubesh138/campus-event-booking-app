@@ -23,7 +23,7 @@ export default function AdminRoute({ children }: { children: JSX.Element }) {
   // ⏳ Wait until check completes
   if (isAdmin === null) return null;
 
-  // ❌ Not admin → redirect
+  // ❌ Not admin → redirect to home
   if (!isAdmin) return <Navigate to="/" replace />;
 
   // ✅ Admin → allow access

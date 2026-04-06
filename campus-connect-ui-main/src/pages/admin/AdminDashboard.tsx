@@ -27,7 +27,7 @@ export default function AdminDashboard() {
 
         // EVENTS
         const eventsRes = await axios.get(
-          "http://localhost:5000/api/events",
+          "https://campus-event-booking-app.onrender.com/api/events",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
 
         // USERS COUNT
         const usersRes = await axios.get(
-          "http://localhost:5000/api/auth/count"
+          "https://campus-event-booking-app.onrender.com/api/auth/count"
         );
 
         setTotalUsers(usersRes.data.totalUsers);
