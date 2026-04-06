@@ -1,6 +1,5 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import AdminRoute from "@/components/AdminRoute"; // ✅ IMPORTANT
 import Chatbot from "@/components/Chatbot";
 
 import Index from "./pages/Index";
@@ -50,33 +49,10 @@ export default function App() {
           }
         />
 
-        {/* 🔥 ADMIN ROUTES (FINAL FIX) */}
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          }
-        />
-
-        <Route
-          path="/admin/create"
-          element={
-            <AdminRoute>
-              <CreateEvent />
-            </AdminRoute>
-          }
-        />
-
-        <Route
-          path="/admin/events"
-          element={
-            <AdminRoute>
-              <EventList />
-            </AdminRoute>
-          }
-        />
+        {/* 🔥 ADMIN ROUTES (FORCE ENABLED FOR DEMO) */}
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/create" element={<CreateEvent />} />
+        <Route path="/admin/events" element={<EventList />} />
 
         {/* NOT FOUND */}
         <Route path="*" element={<NotFound />} />
