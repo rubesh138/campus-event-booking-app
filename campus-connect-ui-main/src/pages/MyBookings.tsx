@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../api"; // ✅ FIXED (no more red error)
+import API from "@/api/api"; // ✅ FIXED (correct path)
 import { Header } from "@/components/layout/Header";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Clock, MapPin, CalendarX } from "lucide-react";
@@ -10,7 +10,6 @@ export default function MyBookings() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ FETCH BOOKINGS
   const fetchBookings = async () => {
     try {
       const res = await API.get("/bookings/me");
@@ -29,7 +28,6 @@ export default function MyBookings() {
     fetchBookings();
   }, []);
 
-  // ✅ CANCEL BOOKING
   const handleCancel = async (id: string) => {
     try {
       await API.delete(`/bookings/${id}`);
@@ -81,31 +79,26 @@ export default function MyBookings() {
                       {event.title}
                     </h2>
 
-                    {/* Date */}
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Calendar size={16} />
                       {new Date(event.date).toLocaleDateString()}
                     </div>
 
-                    {/* Time */}
                     <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
                       <Clock size={16} />
                       {event.time}
                     </div>
 
-                    {/* Location */}
                     <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
                       <MapPin size={16} />
                       {event.location}
                     </div>
 
-                    {/* Status */}
                     <span className="inline-block mt-3 text-xs font-medium bg-green-100 text-green-700 px-3 py-1 rounded-full">
                       confirmed
                     </span>
                   </div>
 
-                  {/* Cancel Button */}
                   <Button
                     className="bg-red-500 hover:bg-red-600 text-white"
                     onClick={() => handleCancel(booking._id)}

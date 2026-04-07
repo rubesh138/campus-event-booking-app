@@ -15,7 +15,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { categories } from "@/lib/mockData";
-import API from "../api"; // ✅ FIXED (use API instead of axios)
+import API from "@/api/api"; // ✅ FIXED
 
 export default function CreateEvent() {
   const navigate = useNavigate();
@@ -54,7 +54,6 @@ export default function CreateEvent() {
           formData.image || "https://via.placeholder.com/600x400",
       };
 
-      // ✅ FIXED API CALL
       await API.post("/events", payload);
 
       toast({
@@ -92,45 +91,26 @@ export default function CreateEvent() {
               <form onSubmit={handleSubmit} className="space-y-4">
 
                 <Label>Title</Label>
-                <Input
-                  onChange={(e) => handleChange("title", e.target.value)}
-                />
+                <Input onChange={(e) => handleChange("title", e.target.value)} />
 
                 <Label>Description</Label>
-                <Textarea
-                  onChange={(e) =>
-                    handleChange("description", e.target.value)
-                  }
-                />
+                <Textarea onChange={(e) => handleChange("description", e.target.value)} />
 
                 <Label>Date</Label>
-                <Input
-                  type="date"
-                  onChange={(e) => handleChange("date", e.target.value)}
-                />
+                <Input type="date" onChange={(e) => handleChange("date", e.target.value)} />
 
                 <Label>Time</Label>
-                <Input
-                  type="time"
-                  onChange={(e) => handleChange("time", e.target.value)}
-                />
+                <Input type="time" onChange={(e) => handleChange("time", e.target.value)} />
 
                 <Label>Location</Label>
-                <Input
-                  onChange={(e) => handleChange("location", e.target.value)}
-                />
+                <Input onChange={(e) => handleChange("location", e.target.value)} />
 
                 <Label>Seats</Label>
-                <Input
-                  type="number"
-                  onChange={(e) => handleChange("seats", e.target.value)}
-                />
+                <Input type="number" onChange={(e) => handleChange("seats", e.target.value)} />
 
                 <Label>Category</Label>
 
-                <Select
-                  onValueChange={(v) => handleChange("category", v)}
-                >
+                <Select onValueChange={(v) => handleChange("category", v)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -147,10 +127,7 @@ export default function CreateEvent() {
                 </Select>
 
                 <Label>Image URL (optional)</Label>
-
-                <Input
-                  onChange={(e) => handleChange("image", e.target.value)}
-                />
+                <Input onChange={(e) => handleChange("image", e.target.value)} />
 
                 <Button type="submit" disabled={loading}>
                   {loading ? "Creating..." : "Create Event"}
