@@ -15,10 +15,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { categories } from "@/lib/mockData";
-import axios from "axios";
+import API from "../api"; // ✅ FIXED (use API instead of axios)
 
 export default function CreateEvent() {
-
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -43,7 +42,6 @@ export default function CreateEvent() {
     setLoading(true);
 
     try {
-
       const payload = {
         title: formData.title,
         description: formData.description,
@@ -52,13 +50,12 @@ export default function CreateEvent() {
         time: formData.time,
         location: formData.location,
         seats: Number(formData.seats),
-        image: formData.image || "https://via.placeholder.com/600x400",
+        image:
+          formData.image || "https://via.placeholder.com/600x400",
       };
 
-      await axios.post(
-        "http://localhost:5000/api/events",
-        payload
-      );
+      // ✅ FIXED API CALL
+      await API.post("/events", payload);
 
       toast({
         title: "Event created successfully",
@@ -67,7 +64,6 @@ export default function CreateEvent() {
       navigate("/admin/events");
 
     } catch (error) {
-
       console.error(error);
 
       toast({
@@ -82,11 +78,9 @@ export default function CreateEvent() {
 
   return (
     <div className="flex min-h-screen w-full">
-
       <AdminSidebar />
 
       <main className="flex-1 p-6 bg-background">
-
         <div className="max-w-3xl mx-auto">
 
           <Card>
@@ -95,7 +89,6 @@ export default function CreateEvent() {
             </CardHeader>
 
             <CardContent>
-
               <form onSubmit={handleSubmit} className="space-y-4">
 
                 <Label>Title</Label>
@@ -164,14 +157,12 @@ export default function CreateEvent() {
                 </Button>
 
               </form>
-
             </CardContent>
+
           </Card>
 
         </div>
-
       </main>
-
     </div>
   );
 }
