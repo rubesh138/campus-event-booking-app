@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Calendar, Clock, MapPin, CalendarX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// ✅ USE SERVICE FUNCTIONS (IMPORTANT FIX)
+// ✅ USE SERVICE FUNCTIONS
 import { getMyBookings, cancelBooking } from "@/api/bookings";
 
 export default function MyBookings() {
@@ -15,7 +15,7 @@ export default function MyBookings() {
   // ✅ FETCH BOOKINGS
   const fetchBookings = async () => {
     try {
-      const res = await getMyBookings(); // ✅ FIXED
+      const res = await getMyBookings();
       setBookings(res.data);
     } catch (error) {
       toast({
@@ -34,7 +34,7 @@ export default function MyBookings() {
   // ✅ CANCEL BOOKING
   const handleCancel = async (id: string) => {
     try {
-      await cancelBooking(id); // ✅ FIXED
+      await cancelBooking(id);
 
       toast({
         title: "Booking cancelled",
@@ -54,11 +54,9 @@ export default function MyBookings() {
       <Header />
 
       <main className="container py-10 max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2">My Bookings</h1>
 
-        <p className="text-muted-foreground mb-8">
-          Manage your event registrations
-        </p>
+        {/* ✅ REMOVED HEADING FOR REVIEW */}
+        <div className="mb-4"></div>
 
         {loading ? (
           <p>Loading...</p>
