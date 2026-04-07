@@ -18,15 +18,19 @@ export function Header() {
   return (
     <header className="border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
+        
+        {/* Logo */}
         <Link to="/" className="text-xl font-bold">
           CampusEvents
         </Link>
 
+        {/* Navigation */}
         <nav className="flex items-center gap-6">
+          
+          {/* Events Only */}
           <Link to="/">Events</Link>
 
-          {/* ✅ REMOVED MY BOOKINGS FOR REVIEW */}
-
+          {/* User */}
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
               <User className="h-4 w-4" />
@@ -34,9 +38,11 @@ export function Header() {
             <span className="font-medium">{userName}</span>
           </div>
 
+          {/* Logout */}
           <Button variant="outline" size="sm" onClick={handleLogout}>
             Logout
           </Button>
+
         </nav>
       </div>
     </header>
