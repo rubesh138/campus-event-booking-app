@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import API from "@/api/api"; // ✅ FIXED (correct path)
 import { Header } from "@/components/layout/Header";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Clock, MapPin, CalendarX } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+// ✅ USE SERVICE FUNCTIONS (IMPORTANT FIX)
+import { getMyBookings, cancelBooking } from "@/api/bookings";
 
 export default function MyBookings() {
   const { toast } = useToast();
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ FETCH BOOKINGS
   const fetchBookings = async () => {
     try {
-      const res = await API.get("/bookings/me");
+      const res = await getMyBookings(); // ✅ FIXED
       setBookings(res.data);
     } catch (error) {
       toast({
@@ -28,9 +31,10 @@ export default function MyBookings() {
     fetchBookings();
   }, []);
 
+  // ✅ CANCEL BOOKING
   const handleCancel = async (id: string) => {
     try {
-      await API.delete(`/bookings/${id}`);
+      await cancelBooking(id); // ✅ FIXED
 
       toast({
         title: "Booking cancelled",
