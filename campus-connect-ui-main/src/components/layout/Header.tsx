@@ -24,7 +24,8 @@ export function Header() {
 
         <nav className="flex items-center gap-6">
           <Link to="/">Events</Link>
-          <Link to="/my-bookings">My Bookings</Link>
+
+          {/* ✅ REMOVED MY BOOKINGS FOR REVIEW */}
 
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
